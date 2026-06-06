@@ -289,7 +289,7 @@ function navigate(viewName) {
   
   const pageTitle = document.getElementById('page-title');
   pageTitle.innerText = pageTitles[viewName] || '병원 관리 시스템';
-  pageTitle.classList.add('text-light');
+  pageTitle.classList.add('text-dark');
 
   renderView(viewName);
   updateDIKWPanel(viewName);
@@ -377,7 +377,7 @@ async function loadDashboardView(container) {
     <div class="row g-4">
       <div class="col-md-7">
         <div class="card-premium h-100">
-          <h5 class="text-light mb-3 font-heading"><i class="fa-solid fa-chart-line text-info me-2"></i>최근 환자 내원 추이</h5>
+          <h5 class="mb-3 font-heading"><i class="fa-solid fa-chart-line text-info me-2"></i>최근 환자 내원 추이</h5>
           <div style="position: relative; height: 250px;">
             <canvas id="trendChart"></canvas>
           </div>
@@ -385,7 +385,7 @@ async function loadDashboardView(container) {
       </div>
       <div class="col-md-5">
         <div class="card-premium h-100">
-          <h5 class="text-light mb-3 font-heading"><i class="fa-solid fa-chart-pie text-primary me-2"></i>진료과목별 분포</h5>
+          <h5 class="mb-3 font-heading"><i class="fa-solid fa-chart-pie text-primary me-2"></i>진료과목별 분포</h5>
           <div style="position: relative; height: 250px;">
             <canvas id="specialtyChart"></canvas>
           </div>
@@ -394,13 +394,13 @@ async function loadDashboardView(container) {
     </div>
 
     <div class="card-premium mt-4">
-      <h5 class="text-light mb-3 font-heading"><i class="fa-solid fa-bell text-warning me-2"></i>실습 모니터링 이벤트</h5>
+      <h5 class="mb-3 font-heading"><i class="fa-solid fa-bell text-warning me-2"></i>실습 모니터링 이벤트</h5>
       <div class="list-group list-group-flush" style="background: transparent;">
-        <div class="list-group-item bg-transparent text-light border-secondary d-flex justify-content-between align-items-center">
+        <div class="list-group-item bg-transparent text-dark border-light-subtle d-flex justify-content-between align-items-center">
           <span><span class="badge bg-danger me-2">알레르기 경보</span> P-00001 홍길동 환자는 <strong>페니실린 계열 알레르기</strong>가 등록되어 있습니다.</span>
           <small class="text-muted">실시간</small>
         </div>
-        <div class="list-group-item bg-transparent text-light border-secondary d-flex justify-content-between align-items-center">
+        <div class="list-group-item bg-transparent text-dark border-light-subtle d-flex justify-content-between align-items-center">
           <span><span class="badge bg-primary me-2">신규 환자</span> P-00003 이철수 환자가 소아청소년과 예약을 완료했습니다.</span>
           <small class="text-muted">1시간 전</small>
         </div>
@@ -432,8 +432,8 @@ function initDashboardCharts(data) {
   if (charts.trend) charts.trend.destroy();
   if (charts.specialty) charts.specialty.destroy();
 
-  const gridColor = '#222d44';
-  const tickColor = '#94a3b8';
+  const gridColor = '#cbd5e1';
+  const tickColor = '#475569';
 
   const ctxTrend = document.getElementById('trendChart').getContext('2d');
   charts.trend = new Chart(ctxTrend, {
@@ -500,12 +500,12 @@ async function loadPatientsView(container) {
       <div class="col-md-7">
         <div class="card-premium">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="text-light m-0 font-heading"><i class="fa-solid fa-list me-2"></i>환자 명부</h5>
+            <h5 class="m-0 font-heading"><i class="fa-solid fa-list me-2"></i>환자 명부</h5>
             <span class="badge bg-custom-box text-info" style="border: none;">총 \${patients.length}명</span>
           </div>
           
           <div class="table-responsive">
-            <table class="table table-custom text-light">
+            <table class="table table-custom text-dark">
               <thead>
                 <tr>
                   <th>환자 ID</th>
@@ -526,7 +526,7 @@ async function loadPatientsView(container) {
                     <td>
                       ${p.allergies !== '없음' 
                         ? `<span class="allergy-alert badge-allergy"><i class="fa-solid fa-circle-exclamation me-1"></i>${p.allergies}</span>` 
-                        : `<span class="badge bg-secondary">없음</span>`}
+                        : `<span class="badge bg-secondary text-white">없음</span>`}
                     </td>
                     <td>
                       <button class="btn btn-sm btn-dark-outline py-1 px-2" onclick="viewPatientDetail('${p.id}')">상세</button>
@@ -541,7 +541,7 @@ async function loadPatientsView(container) {
 
       <div class="col-md-5">
         <div class="card-premium">
-          <h5 class="text-light mb-3 font-heading"><i class="fa-solid fa-user-plus me-2"></i>신규 환자 등록</h5>
+          <h5 class="mb-3 font-heading"><i class="fa-solid fa-user-plus me-2"></i>신규 환자 등록</h5>
           <form id="new-patient-form">
             <div class="mb-3">
               <label class="form-label text-muted small">성명 <span class="text-danger">*</span></label>
@@ -631,12 +631,12 @@ async function viewPatientDetail(id) {
 
   const detailContainer = document.getElementById('patient-detail-container');
   detailContainer.innerHTML = `
-    <div class="modal fade show" id="patientDetailModal" tabindex="-1" style="display: block; background: rgba(0,0,0,0.6);" aria-modal="true" role="dialog">
+    <div class="modal fade show" id="patientDetailModal" tabindex="-1" style="display: block; background: rgba(0,0,0,0.4);" aria-modal="true" role="dialog">
       <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content glass-panel text-light border-secondary" style="background-color: var(--bg-card);">
-          <div class="modal-header border-secondary">
+        <div class="modal-content glass-panel text-dark border-light-subtle" style="background-color: var(--bg-card);">
+          <div class="modal-header border-light-subtle">
             <h5 class="modal-title font-heading text-info"><i class="fa-solid fa-id-card me-2"></i>환자 상세 임상 프로필</h5>
-            <button type="button" class="btn-close btn-close-white" onclick="closeModal('patientDetailModal')"></button>
+            <button type="button" class="btn-close" onclick="closeModal('patientDetailModal')"></button>
           </div>
           <div class="modal-body">
             <div class="row g-3">
@@ -657,7 +657,7 @@ async function viewPatientDetail(id) {
               </div>
 
               <div class="col-md-6">
-                <h6 class="text-light font-heading border-bottom border-secondary pb-2 mb-3">
+                <h6 class="text-dark font-heading border-bottom border-light-subtle pb-2 mb-3">
                   <i class="fa-solid fa-clipboard-user text-primary me-2"></i>최근 간호 과정 기록 (Nursing Logs)
                 </h6>
                 
@@ -684,7 +684,7 @@ async function viewPatientDetail(id) {
               </div>
             </div>
           </div>
-          <div class="modal-footer border-secondary">
+          <div class="modal-footer border-light-subtle">
             <button type="button" class="btn btn-dark-outline" onclick="closeModal('patientDetailModal')">닫기</button>
           </div>
         </div>
@@ -703,16 +703,16 @@ function openNursingLogForm(patientId, patientName) {
   
   const modalContainer = document.getElementById('patient-detail-container');
   modalContainer.innerHTML = `
-    <div class="modal fade show" id="nursingLogModal" tabindex="-1" style="display: block; background: rgba(0,0,0,0.6);" aria-modal="true" role="dialog">
+    <div class="modal fade show" id="nursingLogModal" tabindex="-1" style="display: block; background: rgba(0,0,0,0.4);" aria-modal="true" role="dialog">
       <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content glass-panel text-light border-secondary" style="background-color: var(--bg-card);">
-          <div class="modal-header border-secondary">
+        <div class="modal-content glass-panel text-dark border-light-subtle" style="background-color: var(--bg-card);">
+          <div class="modal-header border-light-subtle">
             <h5 class="modal-title font-heading text-info"><i class="fa-solid fa-pen-to-square me-2"></i>간호 기록(Nursing Process) 등록</h5>
-            <button type="button" class="btn-close btn-close-white" onclick="closeModal('nursingLogModal')"></button>
+            <button type="button" class="btn-close" onclick="closeModal('nursingLogModal')"></button>
           </div>
           <div class="modal-body">
             <p class="text-muted small mb-3">
-              대상 환자: <strong class="text-light">${patientName} (${patientId})</strong>
+              대상 환자: <strong class="text-dark">${patientName} (${patientId})</strong>
             </p>
             <form id="nursing-log-form">
               <input type="hidden" id="nl-patient-id" value="${patientId}">
@@ -812,10 +812,10 @@ async function loadAppointmentsView(container) {
     <div class="row g-4">
       <div class="col-md-8">
         <div class="card-premium">
-          <h5 class="text-light mb-3 font-heading"><i class="fa-solid fa-clock-rotate-left me-2"></i>진료 예약 및 대기 현황</h5>
+          <h5 class="mb-3 font-heading"><i class="fa-solid fa-clock-rotate-left me-2"></i>진료 예약 및 대기 현황</h5>
           
           <div class="table-responsive">
-            <table class="table table-custom text-light">
+            <table class="table table-custom text-dark">
               <thead>
                 <tr>
                   <th>예약 번호</th>
@@ -856,7 +856,7 @@ async function loadAppointmentsView(container) {
 
       <div class="col-md-4">
         <div class="card-premium">
-          <h5 class="text-light mb-3 font-heading"><i class="fa-solid fa-calendar-plus me-2"></i>새 예약 등록</h5>
+          <h5 class="mb-3 font-heading"><i class="fa-solid fa-calendar-plus me-2"></i>새 예약 등록</h5>
           <form id="new-appt-form">
             <div class="mb-3">
               <label class="form-label text-muted small">진료 대상 환자</label>
@@ -902,11 +902,11 @@ async function loadAppointmentsView(container) {
 
 function getStatusBadgeClass(status) {
   switch (status) {
-    case '대기': return 'bg-secondary text-light';
+    case '대기': return 'bg-secondary text-white';
     case '진료중': return 'bg-warning text-dark';
-    case '완료': return 'bg-success text-light';
-    case '취소': return 'bg-danger text-light';
-    default: return 'bg-dark';
+    case '완료': return 'bg-success text-white';
+    case '취소': return 'bg-danger text-white';
+    default: return 'bg-dark text-white';
   }
 }
 
@@ -979,7 +979,7 @@ async function loadConsultationsView(container) {
     <div class="row g-4">
       <div class="col-md-7">
         <div class="card-premium">
-          <h5 class="text-light mb-3 font-heading"><i class="fa-solid fa-stethoscope me-2"></i>환자 대기 및 진료 제어판</h5>
+          <h5 class="mb-3 font-heading"><i class="fa-solid fa-stethoscope me-2"></i>환자 대기 및 진료 제어판</h5>
           
           ${activeAppts.length === 0 ? '<p class="text-muted text-center py-4">대기 중이거나 진료 중인 외래 환자가 없습니다.</p>' : `
             <div class="list-group mb-4">
@@ -989,7 +989,7 @@ async function loadConsultationsView(container) {
                   <div class="list-group-item bg-custom-box p-3 mb-2 rounded d-flex justify-content-between align-items-start" style="border: none;">
                     <div>
                       <div class="d-flex align-items-center gap-2">
-                        <strong class="fs-5 text-light">${a.patientName}</strong>
+                        <strong class="fs-5 text-dark">${a.patientName}</strong>
                         <span class="badge bg-secondary small">${a.id}</span>
                         ${pat && pat.allergies !== '없음' 
                           ? `<span class="allergy-alert badge-allergy small"><i class="fa-solid fa-circle-exclamation me-1"></i>알레르기 환자</span>` 
@@ -1012,14 +1012,14 @@ async function loadConsultationsView(container) {
             </div>
           `}
 
-          <div id="active-consultation-form-container" style="display: none;" class="border-top border-secondary pt-3">
+          <div id="active-consultation-form-container" style="display: none;" class="border-top border-light-subtle pt-3">
             <h5 class="text-info font-heading mb-3"><i class="fa-solid fa-notes-medical me-2"></i>전자 차트 및 처방전 작성</h5>
             <form id="consultation-form">
               <input type="hidden" id="c-appt-id">
               <input type="hidden" id="c-patient-id">
               
               <div class="mb-3 text-muted small">
-                대상 환자: <strong class="text-light fs-6" id="c-patient-display">성명</strong>
+                대상 환자: <strong class="text-dark fs-6" id="c-patient-display">성명</strong>
               </div>
 
               <div class="mb-3">
@@ -1052,7 +1052,7 @@ async function loadConsultationsView(container) {
 
       <div class="col-md-5">
         <div class="card-premium">
-          <h5 class="text-light mb-3 font-heading"><i class="fa-solid fa-history me-2"></i>최근 진료 & 처방 이력</h5>
+          <h5 class="mb-3 font-heading"><i class="fa-solid fa-history me-2"></i>최근 진료 & 처방 이력</h5>
           <div style="max-height: 500px; overflow-y: auto;">
             ${consults.length === 0 ? '<p class="text-muted small">기록된 과거 진료 내역이 없습니다.</p>' : `
               ${consults.map(c => {
@@ -1070,7 +1070,7 @@ async function loadConsultationsView(container) {
                       <strong class="text-info small">주소증:</strong> <p class="m-0 text-muted small" style="white-space: pre-line;">${c.chiefComplaint}</p>
                     </div>
                     
-                    <div class="border-top border-secondary pt-2 mt-2">
+                    <div class="border-top border-light-subtle pt-2 mt-2">
                       <strong class="text-warning small d-block mb-1"><i class="fa-solid fa-file-prescription me-1"></i>처방약:</strong>
                       <ul class="m-0 ps-3 text-muted small">
                         ${c.prescriptions.map(p => `
@@ -1191,27 +1191,27 @@ async function handleConsultationSubmit(e) {
 function showCDSSWarningModal(patientName, patientAllergy, targetDrug, onAcceptOverride) {
   const alertContainer = document.getElementById('patient-detail-container');
   alertContainer.innerHTML = `
-    <div class="modal fade show" id="cdssAlertModal" tabindex="-1" style="display: block; background: rgba(244,63,94,0.4);" aria-modal="true" role="dialog">
+    <div class="modal fade show" id="cdssAlertModal" tabindex="-1" style="display: block; background: rgba(225,29,72,0.15);" aria-modal="true" role="dialog">
       <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content text-light border-danger" style="background-color: #1a0f12;">
+        <div class="modal-content text-dark border-danger" style="background-color: #fff5f5;">
           <div class="modal-header border-danger">
             <h5 class="modal-title font-heading text-danger fw-bold"><i class="fa-solid fa-triangle-exclamation me-2"></i>[CDSS 경고] 치명적 환자 안전 경고</h5>
           </div>
           <div class="modal-body text-center p-4">
             <span class="fs-1 text-danger d-block mb-3"><i class="fa-solid fa-biohazard"></i></span>
-            <h4 class="text-light">${patientName} 환자 약물 투약 안전 위배</h4>
+            <h4 class="text-dark">${patientName} 환자 약물 투약 안전 위배</h4>
             <p class="text-muted mt-3">
               이 환자는 <strong class="text-danger">${patientAllergy} 알레르기</strong> 병력이 존재합니다.<br>
-              현재 입력된 처방약물: <strong class="text-warning">${targetDrug}</strong>
+              현재 입력된 처방약물: <strong class="text-danger">${targetDrug}</strong>
             </p>
-            <div class="alert alert-danger text-start small mt-3">
+            <div class="alert alert-danger text-start small mt-3" style="background-color: #ffe4e6; color: #9f1239; border-color: #fecdd3;">
               <strong>[지식 근거 (Knowledge):]</strong> 페니실린 및 유사 베타락탐계 항생제는 알레르기 병력이 있는 환자에게 아나필락시스 쇼크, 기도 부종 또는 중증 알레르기 피부 발병(Steven-Johnson syndrome)을 일으킬 수 있어 투여 금기입니다.
             </div>
             <p class="text-muted small">해당 처방을 반려하고 다른 항생제(예: 세펨계 대체 또는 퀴놀론계 등)로 대체하시겠습니까?</p>
           </div>
           <div class="modal-footer border-danger d-flex justify-content-between">
-            <button type="button" class="btn btn-outline-light" onclick="closeCDSSAlertAndRedesign()">처방 수정 (권장)</button>
-            <button type="button" class="btn btn-danger" id="cdss-override-btn">경고 무시하고 진행</button>
+            <button type="button" class="btn btn-outline-dark" onclick="closeCDSSAlertAndRedesign()">처방 수정 (권장)</button>
+            <button type="button" class="btn btn-danger text-white" id="cdss-override-btn">경고 무시하고 진행</button>
           </div>
         </div>
       </div>
@@ -1302,12 +1302,12 @@ async function loadBillingsView(container) {
   container.innerHTML = `
     <div class="card-premium">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="text-light m-0 font-heading"><i class="fa-solid fa-file-invoice-dollar me-2"></i>의료 청구 & 수납 현황</h5>
+        <h5 class="m-0 font-heading"><i class="fa-solid fa-file-invoice-dollar me-2"></i>의료 청구 & 수납 현황</h5>
         <span class="badge bg-custom-box text-info" style="border: none;">미납 내역: ${billings.filter(b => b.status === '미납').length}건</span>
       </div>
 
       <div class="table-responsive">
-        <table class="table table-custom text-light">
+        <table class="table table-custom text-dark">
           <thead>
             <tr>
               <th>청구 번호</th>
@@ -1370,19 +1370,19 @@ function viewReceipt(id) {
 
   const modalContainer = document.getElementById('billing-detail-container');
   modalContainer.innerHTML = `
-    <div class="modal fade show" id="receiptModal" tabindex="-1" style="display: block; background: rgba(0,0,0,0.6);" aria-modal="true" role="dialog">
+    <div class="modal fade show" id="receiptModal" tabindex="-1" style="display: block; background: rgba(0,0,0,0.4);" aria-modal="true" role="dialog">
       <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content glass-panel text-light border-secondary" style="background-color: var(--bg-card);">
-          <div class="modal-header border-secondary">
+        <div class="modal-content glass-panel text-dark border-light-subtle" style="background-color: var(--bg-card);">
+          <div class="modal-header border-light-subtle">
             <h5 class="modal-title font-heading text-success"><i class="fa-solid fa-receipt me-2"></i>수납 영수증</h5>
-            <button type="button" class="btn-close btn-close-white" onclick="closeReceipt()"></button>
+            <button type="button" class="btn-close" onclick="closeReceipt()"></button>
           </div>
           <div class="modal-body p-4 print-page">
             <div class="text-center mb-4">
               <h4>HMS 대학병원 영수증</h4>
               <p class="text-muted small">발행일: ${b.date} | 영수증 번호: ${b.id}</p>
             </div>
-            <table class="table text-light border-secondary small">
+            <table class="table text-dark border-light-subtle small">
               <tbody>
                 <tr>
                   <td>환자 성명</td>
@@ -1400,18 +1400,18 @@ function viewReceipt(id) {
                   <td>처방 및 약제비</td>
                   <td class="text-end">${b.fees.pharmacy.toLocaleString()}원</td>
                 </tr>
-                <tr class="border-top border-2 border-secondary">
+                <tr class="border-top border-2 border-light-subtle">
                   <td class="fw-bold fs-6">총액 (수납완료)</td>
                   <td class="text-end text-info fw-bold fs-6">${b.totalAmount.toLocaleString()}원</td>
                 </tr>
               </tbody>
             </table>
-            <div class="text-center mt-4 pt-3 border-top border-dashed border-secondary text-muted" style="font-size: 0.75rem;">
+            <div class="text-center mt-4 pt-3 border-top border-dashed border-light-subtle text-muted" style="font-size: 0.75rem;">
               상기 금액을 정히 영수함.<br>
               HMS 의료정보 실습 시뮬레이션용 가상 데이터
             </div>
           </div>
-          <div class="modal-footer border-secondary">
+          <div class="modal-footer border-light-subtle">
             <button type="button" class="btn btn-cyan" onclick="window.print()"><i class="fa-solid fa-print me-1"></i>출력</button>
             <button type="button" class="btn btn-dark-outline" onclick="closeReceipt()">닫기</button>
           </div>
@@ -1443,14 +1443,14 @@ async function loadReportsView(container) {
     <div class="row g-4 no-print mb-4">
       <div class="col-md-6">
         <div class="card-premium">
-          <h5 class="text-light mb-2 font-heading"><i class="fa-solid fa-circle-exclamation text-danger me-2"></i>미납 요약 보고</h5>
+          <h5 class="mb-2 font-heading"><i class="fa-solid fa-circle-exclamation text-danger me-2"></i>미납 요약 보고</h5>
           <p class="text-muted small">원활한 병원 재정 관리를 위한 미수금 분석 데이터입니다.</p>
           <div class="d-flex justify-content-around mt-3">
             <div class="text-center">
               <span class="text-muted small d-block">미납 건수</span>
               <span class="fs-4 fw-bold text-danger">${unpaidCount}건</span>
             </div>
-            <div class="text-center border-start border-secondary ps-4">
+            <div class="text-center border-start border-light-subtle ps-4">
               <span class="text-muted small d-block">미납 총액</span>
               <span class="fs-4 fw-bold text-warning">${unpaidAmount.toLocaleString()}원</span>
             </div>
@@ -1460,7 +1460,7 @@ async function loadReportsView(container) {
 
       <div class="col-md-6">
         <div class="card-premium">
-          <h5 class="text-light mb-2 font-heading"><i class="fa-solid fa-tools text-primary me-2"></i>보고서 인쇄 제어</h5>
+          <h5 class="mb-2 font-heading"><i class="fa-solid fa-tools text-primary me-2"></i>보고서 인쇄 제어</h5>
           <p class="text-muted small">출력 시 브라우저 인쇄 모드에 맞춰 사이드바와 설정 패널이 자동 가림 처리됩니다.</p>
           <button class="btn btn-cyan w-100 mt-3" onclick="window.print()">
             <i class="fa-solid fa-print me-2"></i>인쇄용 보고서 출력하기
@@ -1470,19 +1470,19 @@ async function loadReportsView(container) {
     </div>
 
     <div class="card-premium print-include print-page" id="printable-report-area">
-      <div class="print-header text-center mb-4 pb-2 border-bottom border-secondary">
-        <h2 class="text-light font-heading">일일 미납 진료비 및 환자 통계 보고서</h2>
+      <div class="print-header text-center mb-4 pb-2 border-bottom border-light-subtle">
+        <h2 class="font-heading text-dark">일일 미납 진료비 및 환자 통계 보고서</h2>
         <p class="text-muted small">출력 시간: 2026-06-06 | 보고 기관: HMS 대학병원 실습본부</p>
       </div>
 
       <div class="row g-3 mb-4">
         <div class="col-md-6">
           <h6 class="text-info font-heading">1. 기본 지표 요약</h6>
-          <table class="table table-bordered table-custom text-light small">
+          <table class="table table-bordered table-custom text-dark small">
             <tbody>
               <tr>
                 <td>총 등록 환자 수</td>
-                <td class="text-end fw-bold text-light">${patients.length}명</td>
+                <td class="text-end fw-bold text-dark">${patients.length}명</td>
               </tr>
               <tr>
                 <td>미결제 미납 청구 건수</td>
@@ -1497,7 +1497,7 @@ async function loadReportsView(container) {
         </div>
         <div class="col-md-6">
           <h6 class="text-info font-heading">2. 환자 안전 지표 (알레르기 보유자)</h6>
-          <table class="table table-bordered table-custom text-light small">
+          <table class="table table-bordered table-custom text-dark small">
             <thead>
               <tr>
                 <th>환자명</th>
@@ -1521,7 +1521,7 @@ async function loadReportsView(container) {
       <div>
         <h6 class="text-info font-heading">3. 미결제 청구자 명세 목록</h6>
         <div class="table-responsive">
-          <table class="table table-custom table-bordered text-light small">
+          <table class="table table-custom table-bordered text-dark small">
             <thead>
               <tr>
                 <th>청구 번호</th>
@@ -1555,7 +1555,7 @@ async function loadReportsView(container) {
         </div>
       </div>
 
-      <div class="text-center mt-5 pt-4 border-top border-secondary text-muted" style="font-size: 0.8rem;">
+      <div class="text-center mt-5 pt-4 border-top border-light-subtle text-muted" style="font-size: 0.8rem;">
         위 보고서는 병원 내 의료정보 데이터 흐름을 기반으로 작성되었습니다.<br>
         확인자: HMS 솔루션 아키텍트 (서명)
       </div>
@@ -1590,9 +1590,9 @@ async function loadStaffView(container) {
     <div class="row g-4">
       <div class="col-md-6">
         <div class="card-premium">
-          <h5 class="text-light mb-3 font-heading"><i class="fa-solid fa-user-doctor text-primary me-2"></i>의사 목록 (Doctors)</h5>
+          <h5 class="mb-3 font-heading"><i class="fa-solid fa-user-doctor text-primary me-2"></i>의사 목록 (Doctors)</h5>
           <div class="table-responsive">
-            <table class="table table-custom text-light">
+            <table class="table table-custom text-dark">
               <thead>
                 <tr>
                   <th>의사 ID</th>
@@ -1620,9 +1620,9 @@ async function loadStaffView(container) {
 
       <div class="col-md-6">
         <div class="card-premium">
-          <h5 class="text-light mb-3 font-heading"><i class="fa-solid fa-user-nurse text-success me-2"></i>간호사 목록 (Nurses)</h5>
+          <h5 class="mb-3 font-heading"><i class="fa-solid fa-user-nurse text-success me-2"></i>간호사 목록 (Nurses)</h5>
           <div class="table-responsive">
-            <table class="table table-custom text-light">
+            <table class="table table-custom text-dark">
               <thead>
                 <tr>
                   <th>간호사 ID</th>

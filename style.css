@@ -6,26 +6,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg-main: #0b0f19;
-  --bg-card: #151c2c;
-  --bg-sidebar: #0f1423;
-  --bg-navbar: #151c2c;
-  --accent-cyan: #06b6d4;
-  --accent-blue: #3b82f6;
-  --accent-purple: #8b5cf6;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --border-color: #222d44;
-  --danger-neon: #f43f5e;
-  --success-neon: #10b981;
-  --warning-neon: #f59e0b;
-  --glass-bg: rgba(21, 28, 44, 0.85);
-  --table-header-bg: rgba(21, 28, 44, 0.6);
-  --form-bg: rgba(15, 20, 35, 0.6);
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-sidebar: #f1f5f9;
+  --bg-navbar: #ffffff;
+  --accent-cyan: #0284c7;
+  --accent-blue: #1d4ed8;
+  --accent-purple: #6d28d9;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border-color: #cbd5e1;
+  --danger-neon: #e11d48;
+  --success-neon: #059669;
+  --warning-neon: #d97706;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --table-header-bg: #e2e8f0;
+  --form-bg: #ffffff;
 }
 
 .bg-custom-box {
-  background-color: rgba(15, 20, 35, 0.4) !important;
+  background-color: #f1f5f9 !important;
   border: 1px solid var(--border-color) !important;
   color: var(--text-main) !important;
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
@@ -182,12 +182,13 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .card-premium:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
 }
 
 .kpi-title {
@@ -207,7 +208,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 .dikw-panel {
   border: 1px dashed var(--accent-cyan);
   border-radius: 12px;
-  background: rgba(6, 182, 212, 0.03);
+  background: rgba(2, 132, 199, 0.05);
   padding: 1.25rem;
   margin-bottom: 1.5rem;
 }
@@ -237,8 +238,8 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 .dikw-step.active {
-  background: rgba(6, 182, 212, 0.1);
-  color: #fff;
+  background: rgba(2, 132, 199, 0.15);
+  color: var(--text-main);
   border-left-color: var(--accent-cyan);
 }
 
@@ -332,7 +333,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 .btn-dark-outline:hover {
   color: var(--text-main);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 /* Login Card Overlay */
@@ -341,7 +342,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+  background: radial-gradient(circle at center, #f8fafc 0%, #e2e8f0 100%);
 }
 
 .login-card {
