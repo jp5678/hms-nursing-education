@@ -559,7 +559,7 @@ async function loadPatientsView(container) {
         <div class="card-premium">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="text-light m-0 font-heading"><i class="fa-solid fa-list me-2"></i>환자 명부</h5>
-            <span class="badge bg-dark border border-secondary text-info">총 ${patients.length}명</span>
+            <span class="badge bg-custom-box text-info" style="border: none;">총 \${patients.length}명</span>
           </div>
           
           <div class="table-responsive">
@@ -703,12 +703,12 @@ async function viewPatientDetail(id) {
                 <h4>${p.name} <span class="fs-6 text-muted">(${p.gender}, ${p.birthDate}생)</span></h4>
                 <p class="mb-2"><strong>ID:</strong> <code>${p.id}</code> | <strong>혈액형:</strong> ${p.bloodType} | <strong>연락처:</strong> ${p.phone}</p>
                 
-                <div class="p-3 bg-dark border border-secondary rounded mt-3">
+                <div class="p-3 bg-custom-box rounded mt-3" style="border: none;">
                   <h6 class="text-danger font-heading"><i class="fa-solid fa-triangle-exclamation me-1"></i>알레르기 (Allergies)</h6>
-                  <p class="m-0 text-light ${p.allergies !== '없음' ? 'allergy-alert fw-bold' : ''}">${p.allergies}</p>
+                  <p class="m-0 ${p.allergies !== '없음' ? 'allergy-alert fw-bold' : ''}">${p.allergies}</p>
                 </div>
                 
-                <div class="p-3 bg-dark border border-secondary rounded mt-2">
+                <div class="p-3 bg-custom-box rounded mt-2" style="border: none;">
                   <h6 class="text-info font-heading">의료 특이사항 / 기왕력</h6>
                   <p class="m-0 text-muted small" style="white-space: pre-line;">${p.notes || '없음'}</p>
                 </div>
@@ -722,7 +722,7 @@ async function viewPatientDetail(id) {
                 ${patientLogs.length === 0 ? '<p class="text-muted small">작성된 간호 기록이 없습니다.</p>' : `
                   <div style="max-height: 250px; overflow-y: auto;">
                     ${patientLogs.map(log => `
-                      <div class="p-2 mb-2 bg-dark rounded border-start border-3 border-info">
+                      <div class="p-2 mb-2 bg-custom-box rounded border-start border-3 border-info">
                         <div class="d-flex justify-content-between text-muted small mb-1">
                           <span>${log.date}</span>
                           <span>작성자: ${log.nurseName}</span>
@@ -1044,7 +1044,7 @@ async function loadConsultationsView(container) {
               ${activeAppts.map(a => {
                 const pat = patients.find(p => p.id === a.patientId);
                 return `
-                  <div class="list-group-item bg-dark border-secondary text-light p-3 mb-2 rounded d-flex justify-content-between align-items-start">
+                  <div class="list-group-item bg-custom-box p-3 mb-2 rounded d-flex justify-content-between align-items-start" style="border: none;">
                     <div>
                       <div class="d-flex align-items-center gap-2">
                         <strong class="fs-5 text-light">${a.patientName}</strong>
@@ -1090,7 +1090,7 @@ async function loadConsultationsView(container) {
                 <input type="text" id="c-diag" class="form-control form-control-custom" placeholder="예: 상세불명의 고혈압 (I10.9) 또는 급성 편도염 (J03.9)" required>
               </div>
 
-              <div class="p-3 bg-dark border border-secondary rounded mb-3">
+              <div class="p-3 bg-custom-box rounded mb-3" style="border: none;">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <h6 class="text-info font-heading m-0"><i class="fa-solid fa-pills me-1"></i>처방 의약품 (Prescriptions)</h6>
                   <button type="button" class="btn btn-sm btn-outline-info py-0 px-2" onclick="addPrescriptionRow()"><i class="fa-solid fa-plus me-1"></i>약품 추가</button>
@@ -1116,7 +1116,7 @@ async function loadConsultationsView(container) {
               ${consults.map(c => {
                 const patName = patients.find(p => p.id === c.patientId)?.name || '알수없음';
                 return `
-                  <div class="p-3 bg-dark border border-secondary rounded mb-3">
+                  <div class="p-3 bg-custom-box rounded mb-3" style="border: none;">
                     <div class="d-flex justify-content-between text-muted small mb-2">
                       <span><strong>진료일:</strong> ${c.date}</span>
                       <span><strong>환자:</strong> ${patName}</span>
@@ -1361,7 +1361,7 @@ async function loadBillingsView(container) {
     <div class="card-premium">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="text-light m-0 font-heading"><i class="fa-solid fa-file-invoice-dollar me-2"></i>의료 청구 & 수납 현황</h5>
-        <span class="badge bg-dark border border-secondary text-info">미납 내역: ${billings.filter(b => b.status === '미납').length}건</span>
+        <span class="badge bg-custom-box text-info" style="border: none;">미납 내역: ${billings.filter(b => b.status === '미납').length}건</span>
       </div>
 
       <div class="table-responsive">
