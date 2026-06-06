@@ -15,7 +15,7 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 // ====================================================
 const INITIAL_DB = {
   users: [
-    { id: "admin", password: "admin", name: "김관리", role: "admin" },
+    { id: "admin", password: "admin", name: "제프리 (전산팀)", role: "admin" },
     { id: "doctor1", password: "doctor1", name: "이의사 (순환기내과)", role: "doctor", specialty: "순환기내과", licenseNo: "DOC-12345" },
     { id: "doctor2", password: "doctor2", name: "박의사 (소아청소년과)", role: "doctor", specialty: "소아청소년과", licenseNo: "DOC-67890" },
     { id: "doctor3", password: "doctor3", name: "최의사 (안과)", role: "doctor", specialty: "안과", licenseNo: "DOC-33333" },
@@ -154,8 +154,9 @@ function getLocalDB() {
   }
   
   let parsed = JSON.parse(db);
-  // 직원이 추가되었을 때 로컬스토리지 사용자를 동기화
-  if (!parsed.users || parsed.users.length !== INITIAL_DB.users.length) {
+  // 직원이 추가되거나 관리자 이름 정보가 업데이트되었을 때 강제 동기화
+  const adminUser = parsed.users ? parsed.users.find(u => u.id === 'admin') : null;
+  if (!parsed.users || parsed.users.length !== INITIAL_DB.users.length || (adminUser && adminUser.name !== '제프리 (전산팀)')) {
     parsed.users = INITIAL_DB.users;
     saveLocalDB(parsed);
   }
@@ -295,6 +296,15 @@ async function handleLogin(e) {
 }
 
 function quickLogin(roleId) {
+  const currentId = document.getElementById('login-id').value;
+  const currentPw = document.getElementById('login-password').value;
+
+  // 입력창에 수동으로 입력 중인 텍스트가 있다면 퀵 로그인 작동 방지
+  if (currentId.trim() !== "" || currentPw.trim() !== "") {
+    showToast('이미 입력창에 작성 중인 정보가 있습니다. 퀵 로그인을 사용하려면 입력창을 비워주세요.', 'warning');
+    return;
+  }
+
   document.getElementById('login-id').value = roleId;
   document.getElementById('login-password').value = roleId;
   document.getElementById('login-form').dispatchEvent(new Event('submit'));
