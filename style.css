@@ -39,6 +39,25 @@ body.light-mode {
   --form-bg: #ffffff;
 }
 
+/* Light mode text visibility & contrast fixes */
+body.light-mode .text-light {
+  color: var(--text-main) !important;
+}
+body.light-mode .text-secondary {
+  color: var(--text-muted) !important;
+}
+body.light-mode .list-group-item {
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+body.light-mode .dikw-step.active {
+  background: rgba(8, 145, 178, 0.15) !important;
+  color: var(--accent-cyan) !important;
+}
+body.light-mode .dikw-step {
+  color: var(--text-muted);
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-main);
