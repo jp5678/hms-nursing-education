@@ -116,51 +116,63 @@
 
       <!-- Content Grid (Body + DIKW Educational Panel) -->
       <div class="content-body">
-        <div class="row g-4">
-          <!-- Central Workspace for Actions -->
-          <div class="col-lg-8" id="workspace-view">
-            <!-- Dynamic pages will be rendered here -->
-          </div>
+        <!-- Central Workspace for Actions (Width: 100%) -->
+        <div id="workspace-view" class="mb-5">
+          <!-- Dynamic pages will be rendered here -->
+        </div>
 
-          <!-- DIKW Guidance Sidebar Panel -->
-          <div class="col-lg-4 no-print">
-            <div class="glass-panel p-4">
-              <h5 class="font-heading mb-3 text-info"><i class="fa-solid fa-graduation-cap me-2"></i>간호정보학 DIKW 모델</h5>
-              <p class="text-muted small">현재 실무 단계에서 수집되는 데이터가 어떻게 임상적 지혜(Wisdom)로 도출되는지 추적합니다.</p>
-              
-              <div class="dikw-panel">
-                <div class="dikw-header">
-                  <i class="fa-solid fa-diagram-project"></i> DIKW 실시간 추적기
+        <!-- DIKW Guidance Bottom Panel (Horizontal Layout) -->
+        <div class="no-print border-top border-light-subtle pt-4 mt-5">
+          <div class="glass-panel p-4">
+            <div class="row g-4">
+              <!-- Left side: DIKW Flow Tracker (col-lg-9) -->
+              <div class="col-lg-9">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                  <h5 class="font-heading m-0 text-info"><i class="fa-solid fa-graduation-cap me-2"></i>간호정보학 DIKW 모델 실시간 추적기</h5>
+                  <span class="text-muted small">| 현재 화면에서의 데이터 가치 변화 흐름</span>
                 </div>
-                <div class="dikw-steps">
-                  <div class="dikw-step" id="dikw-data">
-                    <span class="dikw-step-title text-info"><i class="fa-solid fa-database me-1"></i> Data (데이터)</span>
-                    <span id="dikw-data-text">원시 측정 팩트나 수치. 가령 성별, 혈압 수치, 알레르기 원인 등 가공되지 않은 상태입니다.</span>
-                  </div>
-                  <div class="dikw-step" id="dikw-info">
-                    <span class="dikw-step-title text-primary"><i class="fa-solid fa-circle-info me-1"></i> Information (정보)</span>
-                    <span id="dikw-info-text">데이터가 맥락을 만나 가공된 형태. (예: 혈압 150/95 -> '고혈압 1단계', 알레르기 '페니실린' -> '투약 주의 환자')</span>
-                  </div>
-                  <div class="dikw-step" id="dikw-knowledge">
-                    <span class="dikw-step-title text-warning"><i class="fa-solid fa-book-medical me-1"></i> Knowledge (지식)</span>
-                    <span id="dikw-knowledge-text">정보가 임상적 가이드라인 및 전문 이론과 연결되는 단계. (예: '페니실린 알레르기 환자는 베타락탐계 처방 시 아나필락시스 위험이 있다')</span>
-                  </div>
-                  <div class="dikw-step" id="dikw-wisdom">
-                    <span class="dikw-step-title text-danger"><i class="fa-solid fa-brain me-1"></i> Wisdom (지혜)</span>
-                    <span id="dikw-wisdom-text">의사결정 지원 시스템(CDSS)을 이용한 올바른 판단. (예: 처방 시 알레르기 경고를 띄워 투약 오류를 선제 방지하는 행위)</span>
+                
+                <div class="dikw-panel mb-0">
+                  <div class="row g-3">
+                    <div class="col-md-3">
+                      <div class="dikw-step h-100 active" id="dikw-data">
+                        <span class="dikw-step-title text-info"><i class="fa-solid fa-database me-1"></i> Data (데이터)</span>
+                        <span id="dikw-data-text" class="small d-inline-block mt-1">원시 측정 팩트나 수치. 가령 성별, 혈압 수치, 알레르기 원인 등 가공되지 않은 상태입니다.</span>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="dikw-step h-100" id="dikw-info">
+                        <span class="dikw-step-title text-primary"><i class="fa-solid fa-circle-info me-1"></i> Information (정보)</span>
+                        <span id="dikw-info-text" class="small d-inline-block mt-1">데이터가 맥락을 만나 가공된 형태. (예: 혈압 150/95 -> '고혈압 1단계', 알레르기 '페니실린' -> '투약 주의 환자')</span>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="dikw-step h-100" id="dikw-knowledge">
+                        <span class="dikw-step-title text-warning"><i class="fa-solid fa-book-medical me-1"></i> Knowledge (지식)</span>
+                        <span id="dikw-knowledge-text" class="small d-inline-block mt-1">정보가 임상적 가이드라인 및 전문 이론과 연결되는 단계. (예: '페니실린 알레르기 환자는 베타락탐계 처방 시 아나필락시스 위험이 있다')</span>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="dikw-step h-100" id="dikw-wisdom">
+                        <span class="dikw-step-title text-danger"><i class="fa-solid fa-brain me-1"></i> Wisdom (지혜)</span>
+                        <span id="dikw-wisdom-text" class="small d-inline-block mt-1">의사결정 지원 시스템(CDSS)을 이용한 올바른 판단. (예: 처방 시 알레르기 경고를 띄워 투약 오류를 선제 방지하는 행위)</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Extra Info & CDSS Simulation Console -->
-              <div class="card bg-custom-box p-3 mt-3" style="border: none;">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <span class="text-warning small fw-bold"><i class="fa-solid fa-shield-halved me-1"></i> CDSS 시뮬레이터</span>
-                  <span class="badge bg-success" style="font-size: 0.65rem;">활성화</span>
+              <!-- Right side: CDSS Simulator Console (col-lg-3) -->
+              <div class="col-lg-3">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <span class="text-danger small fw-bold font-heading"><i class="fa-solid fa-shield-halved me-1"></i> CDSS 실시간 감시</span>
+                  <span class="badge bg-success" style="font-size: 0.65rem;">감시 활성화</span>
                 </div>
-                <p class="text-muted" style="font-size: 0.75rem; line-height: 1.4; margin: 0;" id="cdss-log">
-                  현재 환자 대기 중입니다. 진료 단계에서 알레르기 성분이 포함된 약물을 처방하여 환자 안전 시스템의 반응을 시험하세요.
-                </p>
+                <div class="card bg-custom-box p-3 h-100 d-flex flex-column justify-content-center" style="border: none; min-height: 120px;">
+                  <p class="text-muted" style="font-size: 0.75rem; line-height: 1.5; margin: 0;" id="cdss-log">
+                    현재 환자 대기 중입니다. 진료 단계에서 알레르기 성분이 포함된 약물을 처방하여 환자 안전 시스템의 반응을 시험하세요.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
