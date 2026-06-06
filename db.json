@@ -1,0 +1,158 @@
+{
+  "users": [
+    {
+      "id": "admin",
+      "password": "admin",
+      "name": "김관리",
+      "role": "admin"
+    },
+    {
+      "id": "doctor1",
+      "password": "doctor1",
+      "name": "이의사 (순환기내과)",
+      "role": "doctor",
+      "specialty": "순환기내과",
+      "licenseNo": "DOC-12345"
+    },
+    {
+      "id": "doctor2",
+      "password": "doctor2",
+      "name": "박의사 (소아청소년과)",
+      "role": "doctor",
+      "specialty": "소아청소년과",
+      "licenseNo": "DOC-67890"
+    },
+    {
+      "id": "nurse1",
+      "password": "nurse1",
+      "name": "최간호 (중환자실)",
+      "role": "nurse",
+      "specialty": "ICU",
+      "licenseNo": "NUR-98765"
+    },
+    {
+      "id": "nurse2",
+      "password": "nurse2",
+      "name": "정간호 (일반병동)",
+      "role": "nurse",
+      "specialty": "일반병동",
+      "licenseNo": "NUR-43210"
+    }
+  ],
+  "patients": [
+    {
+      "id": "P-00001",
+      "name": "홍길동",
+      "birthDate": "1985-05-15",
+      "gender": "남성",
+      "phone": "010-1234-5678",
+      "bloodType": "A+",
+      "allergies": "페니실린(Penicillin)",
+      "notes": "고혈압 기왕력 있음. 페니실린계 항생제 복용 시 아나필락시스 쇼크 주의 요망."
+    },
+    {
+      "id": "P-00002",
+      "name": "김영희",
+      "birthDate": "1992-10-22",
+      "gender": "여성",
+      "phone": "010-8765-4321",
+      "bloodType": "B+",
+      "allergies": "없음",
+      "notes": "특이사항 없음. 당뇨 예방 관리 중."
+    },
+    {
+      "id": "P-00003",
+      "name": "이철수",
+      "birthDate": "2015-03-08",
+      "gender": "남성",
+      "phone": "010-5555-4444",
+      "bloodType": "O-",
+      "allergies": "땅콩(Peanut)",
+      "notes": "소아 천식 병력 있음. 견과류 알레르기 주의."
+    }
+  ],
+  "appointments": [
+    {
+      "id": "A-00001",
+      "patientId": "P-00001",
+      "patientName": "홍길동",
+      "doctorId": "doctor1",
+      "doctorName": "이의사 (순환기내과)",
+      "date": "2026-06-06",
+      "time": "10:00",
+      "symptoms": "최근 3일간 지속적인 두통 및 혈압 상승(150/95mmHg)",
+      "status": "진료중"
+    },
+    {
+      "id": "A-00002",
+      "patientId": "P-00003",
+      "patientName": "이철수",
+      "doctorId": "doctor2",
+      "doctorName": "박의사 (소아청소년과)",
+      "date": "2026-06-06",
+      "time": "11:30",
+      "symptoms": "기침, 발열 및 호흡 곤란 증세",
+      "status": "대기"
+    },
+    {
+      "id": "A-00003",
+      "patientId": "P-00002",
+      "patientName": "김영희",
+      "doctorId": "doctor1",
+      "doctorName": "이의사 (순환기내과)",
+      "date": "2026-06-05",
+      "time": "14:00",
+      "symptoms": "정기 검진 및 혈당 조절 체크",
+      "status": "완료"
+    }
+  ],
+  "consultations": [
+    {
+      "id": "C-00001",
+      "appointmentId": "A-00003",
+      "patientId": "P-00002",
+      "doctorId": "doctor1",
+      "date": "2026-06-05",
+      "chiefComplaint": "당뇨 관리 상태 체크",
+      "diagnosis": "2형 당뇨병 (ICD-10: E11)",
+      "prescriptions": [
+        {
+          "drugName": "Metformin",
+          "dosage": "500mg",
+          "route": "경구(PO)",
+          "frequency": "1일 2회 (식후)"
+        }
+      ]
+    }
+  ],
+  "billings": [
+    {
+      "id": "B-00001",
+      "patientId": "P-00002",
+      "patientName": "김영희",
+      "consultationId": "C-00001",
+      "date": "2026-06-05",
+      "fees": {
+        "consultation": 15000,
+        "examination": 5000,
+        "pharmacy": 8000
+      },
+      "totalAmount": 28000,
+      "status": "완료"
+    }
+  ],
+  "nursingLogs": [
+    {
+      "id": "N-00001",
+      "patientId": "P-00001",
+      "patientName": "홍길동",
+      "nurseId": "nurse1",
+      "nurseName": "최간호 (중환자실)",
+      "date": "2026-06-06 10:15",
+      "nursingDiagnosis": "높은 혈압 및 알레르기 반응 위험성",
+      "nursingPlan": "1. 2시간 간격으로 혈압 및 바이탈 사인 측정.\n2. 페니실린계 약물 투여 금기 사항을 침상 머리맡에 부착 및 차트 강조.\n3. 환자에게 알레르기 유발 물질 차단 교육 시행.",
+      "nursingImplementation": "1. 환자 입원 시 바이탈 측정: BP 155/98, PR 82, RR 18, BT 36.6도.\n2. 페니실린 알레르기 붉은색 팔찌 착용 완료 및 전산 등록 완료.\n3. 식단 확인 및 저염식 교육 완료.",
+      "nursingEvaluation": "환자는 본인의 페니실린 알레르기 위험성을 인지하고 있으며, 혈압은 1시간 후 재측정 시 145/90mmHg로 소폭 하향 안정화됨."
+    }
+  ]
+}
