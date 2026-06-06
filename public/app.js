@@ -11,6 +11,9 @@ const API_BASE = '/api';
 
 // On page load
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Theme
+  initTheme();
+
   // Check session storage for user persistence
   const savedUser = sessionStorage.getItem('hms_user');
   if (savedUser) {
@@ -23,6 +26,55 @@ document.addEventListener('DOMContentLoaded', () => {
   // Bind Login Form
   document.getElementById('login-form').addEventListener('submit', handleLogin);
 });
+
+// ----------------------------------------------------
+// THEME MANAGEMENT (Dark / Light Mode)
+// ----------------------------------------------------
+function initTheme() {
+  const savedTheme = localStorage.getItem('hms_theme');
+  const isLight = savedTheme === 'light';
+  if (isLight) {
+    document.body.classList.add('light-mode');
+  } else {
+    document.body.classList.remove('light-mode');
+  }
+}
+
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  localStorage.setItem('hms_theme', isLight ? 'light' : 'dark');
+  updateThemeUI(isLight);
+  
+  // Refresh view to apply new grid/text colors to Chart.js
+  if (currentView === 'dashboard') {
+    renderView('dashboard');
+  }
+}
+
+function updateThemeUI(isLight) {
+  const iconLight = document.getElementById('theme-icon-light');
+  const iconDark = document.getElementById('theme-icon-dark');
+  const pageTitle = document.getElementById('page-title');
+
+  if (!iconLight || !iconDark) return;
+
+  if (isLight) {
+    iconLight.style.display = 'inline-block';
+    iconDark.style.display = 'none';
+    if (pageTitle) {
+      pageTitle.classList.remove('text-light');
+      pageTitle.classList.add('text-dark');
+    }
+  } else {
+    iconLight.style.display = 'none';
+    iconDark.style.display = 'inline-block';
+    if (pageTitle) {
+      pageTitle.classList.remove('text-dark');
+      pageTitle.classList.add('text-light');
+    }
+  }
+}
+
 
 // ----------------------------------------------------
 // AUTHENTICATION
@@ -40,6 +92,9 @@ function initApp() {
   document.getElementById('user-display-name').innerText = currentUser.name;
   document.getElementById('user-display-role').innerText = getRoleName(currentUser.role);
   document.getElementById('user-role-badge').innerText = getRoleName(currentUser.role);
+
+  // Apply Current Theme UI Status
+  updateThemeUI(document.body.classList.contains('light-mode'));
 
   // Check RBAC menu visibility
   if (currentUser.role === 'admin') {
@@ -122,7 +177,15 @@ function navigate(viewName) {
     reports: '일일 보고서 및 성과 통계',
     staff: '의료진 및 시스템 관리자 설정'
   };
-  document.getElementById('page-title').innerText = pageTitles[viewName] || '병원 관리 시스템';
+  const pageTitle = document.getElementById('page-title');
+  pageTitle.innerText = pageTitles[viewName] || '병원 관리 시스템';
+  if (document.body.classList.contains('light-mode')) {
+    pageTitle.classList.remove('text-light');
+    pageTitle.classList.add('text-dark');
+  } else {
+    pageTitle.classList.remove('text-dark');
+    pageTitle.classList.add('text-light');
+  }
 
   // Render view
   renderView(viewName);
@@ -247,6 +310,10 @@ function initDashboardCharts(data) {
   if (charts.trend) charts.trend.destroy();
   if (charts.specialty) charts.specialty.destroy();
 
+  const isLight = document.body.classList.contains('light-mode');
+  const gridColor = isLight ? '#e2e8f0' : '#222d44';
+  const tickColor = isLight ? '#475569' : '#94a3b8';
+
   const ctxTrend = document.getElementById('trendChart').getContext('2d');
   charts.trend = new Chart(ctxTrend, {
     type: 'line',
@@ -266,8 +333,8 @@ function initDashboardCharts(data) {
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        y: { grid: { color: '#222d44' }, ticks: { color: '#94a3b8' } },
-        x: { grid: { color: '#222d44' }, ticks: { color: '#94a3b8' } }
+        y: { grid: { color: gridColor }, ticks: { color: tickColor } },
+        x: { grid: { color: gridColor }, ticks: { color: tickColor } }
       }
     }
   });
@@ -292,7 +359,7 @@ function initDashboardCharts(data) {
       plugins: {
         legend: {
           position: 'right',
-          labels: { color: '#94a3b8' }
+          labels: { color: tickColor }
         }
       }
     }

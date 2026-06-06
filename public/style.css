@@ -18,6 +18,25 @@
   --danger-neon: #f43f5e;
   --success-neon: #10b981;
   --warning-neon: #f59e0b;
+  --glass-bg: rgba(21, 28, 44, 0.85);
+  --table-header-bg: rgba(21, 28, 44, 0.6);
+  --form-bg: rgba(15, 20, 35, 0.6);
+}
+
+body.light-mode {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-sidebar: #ffffff;
+  --bg-navbar: #ffffff;
+  --accent-cyan: #0891b2;
+  --accent-blue: #2563eb;
+  --accent-purple: #7c3aed;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border-color: #e2e8f0;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --table-header-bg: #f1f5f9;
+  --form-bg: #ffffff;
 }
 
 body {
@@ -27,10 +46,12 @@ body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6, .font-heading {
   font-family: 'Outfit', sans-serif;
+  transition: color 0.3s ease;
 }
 
 /* Scrollbar styling */
@@ -51,11 +72,12 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 /* Glassmorphism effects */
 .glass-panel {
-  background: rgba(21, 28, 44, 0.85);
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: 16px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Layout */
@@ -153,6 +175,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .content-body {
@@ -167,7 +190,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 1.5rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .card-premium:hover {
@@ -264,10 +287,11 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 .table-custom th {
-  background-color: rgba(21, 28, 44, 0.6) !important;
+  background-color: var(--table-header-bg) !important;
   color: var(--text-muted) !important;
   font-weight: 600;
   border-bottom-width: 2px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .table-custom td {
@@ -276,11 +300,12 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 /* Forms UI */
 .form-control-custom {
-  background-color: rgba(15, 20, 35, 0.6) !important;
+  background-color: var(--form-bg) !important;
   border: 1px solid var(--border-color) !important;
   color: var(--text-main) !important;
   border-radius: 8px;
   padding: 0.6rem 0.85rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .form-control-custom:focus {
