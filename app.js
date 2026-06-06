@@ -1,6 +1,7 @@
 // ----------------------------------------------------
 // HMS Client Application (Nursing Informatics Focus)
 // LocalStorage Database Version (Server-less Mode)
+// 최종 업데이트: 2026-06-06 (라이트 모드 기능 완전 제거 및 다크 테마 단일화)
 // ----------------------------------------------------
 
 let currentUser = null;
