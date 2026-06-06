@@ -172,9 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize DB if not present
   getLocalDB();
 
-  // Initialize Theme
-  initTheme();
-
   // 교육용 시뮬레이터에서는 자동 로그인 복구를 비활성화하여
   // 새로 접속 시 항상 아이디와 비밀번호를 검증하도록 오해 방지
   showLogin();
@@ -182,53 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Bind Login Form
   document.getElementById('login-form').addEventListener('submit', handleLogin);
 });
-
-// ====================================================
-// THEME MANAGEMENT (Dark / Light Mode)
-// ====================================================
-function initTheme() {
-  const savedTheme = localStorage.getItem('hms_theme');
-  const isLight = savedTheme === 'light';
-  if (isLight) {
-    document.body.classList.add('light-mode');
-  } else {
-    document.body.classList.remove('light-mode');
-  }
-}
-
-function toggleTheme() {
-  const isLight = document.body.classList.toggle('light-mode');
-  localStorage.setItem('hms_theme', isLight ? 'light' : 'dark');
-  updateThemeUI(isLight);
-  
-  if (currentView === 'dashboard') {
-    renderView('dashboard');
-  }
-}
-
-function updateThemeUI(isLight) {
-  const iconLight = document.getElementById('theme-icon-light');
-  const iconDark = document.getElementById('theme-icon-dark');
-  const pageTitle = document.getElementById('page-title');
-
-  if (!iconLight || !iconDark) return;
-
-  if (isLight) {
-    iconLight.style.display = 'inline-block';
-    iconDark.style.display = 'none';
-    if (pageTitle) {
-      pageTitle.classList.remove('text-light');
-      pageTitle.classList.add('text-dark');
-    }
-  } else {
-    iconLight.style.display = 'none';
-    iconDark.style.display = 'inline-block';
-    if (pageTitle) {
-      pageTitle.classList.remove('text-dark');
-      pageTitle.classList.add('text-light');
-    }
-  }
-}
 
 // ====================================================
 // AUTHENTICATION
@@ -245,8 +195,6 @@ function initApp() {
   document.getElementById('user-display-name').innerText = currentUser.name;
   document.getElementById('user-display-role').innerText = getRoleName(currentUser.role);
   document.getElementById('user-role-badge').innerText = getRoleName(currentUser.role);
-
-  updateThemeUI(document.body.classList.contains('light-mode'));
 
   if (currentUser.role === 'admin') {
     document.getElementById('menu-staff').style.display = 'block';
@@ -340,13 +288,7 @@ function navigate(viewName) {
   
   const pageTitle = document.getElementById('page-title');
   pageTitle.innerText = pageTitles[viewName] || '병원 관리 시스템';
-  if (document.body.classList.contains('light-mode')) {
-    pageTitle.classList.remove('text-light');
-    pageTitle.classList.add('text-dark');
-  } else {
-    pageTitle.classList.remove('text-dark');
-    pageTitle.classList.add('text-light');
-  }
+  pageTitle.classList.add('text-light');
 
   renderView(viewName);
   updateDIKWPanel(viewName);
@@ -489,9 +431,8 @@ function initDashboardCharts(data) {
   if (charts.trend) charts.trend.destroy();
   if (charts.specialty) charts.specialty.destroy();
 
-  const isLight = document.body.classList.contains('light-mode');
-  const gridColor = isLight ? '#e2e8f0' : '#222d44';
-  const tickColor = isLight ? '#475569' : '#94a3b8';
+  const gridColor = '#222d44';
+  const tickColor = '#94a3b8';
 
   const ctxTrend = document.getElementById('trendChart').getContext('2d');
   charts.trend = new Chart(ctxTrend, {
