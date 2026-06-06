@@ -37,7 +37,7 @@ const INITIAL_DB = {
       phone: "010-1234-5678",
       bloodType: "A+",
       allergies: "페니실린(Penicillin)",
-      notes: "고혈압 기왕력 있음. 페니실린계 항생제 복용 시 아나필락시스 쇼크 주의 요망."
+      notes: "고혈압 기왕력 있음. 페니실린계 항생제 복용 시 아나필락시스 쇼크 주의 요망. (순환기내과 집중관리실 입원 중)"
     },
     {
       id: "P-00002",
@@ -128,6 +128,20 @@ const INITIAL_DB = {
       },
       totalAmount: 28000,
       status: "완료"
+    },
+    {
+      id: "B-00002",
+      patientId: "P-00001",
+      patientName: "홍길동",
+      consultationId: "C-00002",
+      date: "2026-06-06",
+      fees: {
+        consultation: 15000,
+        examination: 10000,
+        pharmacy: 15000
+      },
+      totalAmount: 40000,
+      status: "완료"
     }
   ],
   nursingLogs: [
@@ -155,11 +169,18 @@ function getLocalDB() {
   }
   
   let parsed = JSON.parse(db);
-  // 직원이 추가되거나 관리자 이름 정보가 업데이트되었을 때 강제 동기화
-  const adminUser = parsed.users ? parsed.users.find(u => u.id === 'admin') : null;
-  if (!parsed.users || parsed.users.length !== INITIAL_DB.users.length || (adminUser && adminUser.name !== '제프리 (전산팀)')) {
-    parsed.users = INITIAL_DB.users;
-    saveLocalDB(parsed);
+  
+  // 데이터 스키마 보강 및 갱신에 대한 강제 동기화
+  const needsSync = !parsed.users || 
+                    parsed.users.length < INITIAL_DB.users.length || 
+                    !parsed.billings || 
+                    parsed.billings.length < INITIAL_DB.billings.length || 
+                    !parsed.patients || 
+                    (parsed.patients[0] && !parsed.patients[0].notes.includes('입원'));
+
+  if (needsSync) {
+    localStorage.setItem('hms_db', JSON.stringify(INITIAL_DB));
+    return INITIAL_DB;
   }
   return parsed;
 }
@@ -1593,7 +1614,12 @@ async function loadStaffView(container) {
     <div class="row g-4">
       <div class="col-md-6">
         <div class="card-premium">
-          <h5 class="mb-3 font-heading"><i class="fa-solid fa-user-doctor text-primary me-2"></i>의사 목록 (Doctors)</h5>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="m-0 font-heading"><i class="fa-solid fa-user-doctor text-primary me-2"></i>의사 목록 (Doctors)</h5>
+            <button class="btn btn-sm btn-cyan" onclick="openAddStaffModal('doctor')">
+              <i class="fa-solid fa-plus me-1"></i>의사 추가
+            </button>
+          </div>
           <div class="table-responsive">
             <table class="table table-custom text-dark">
               <thead>
@@ -1602,7 +1628,7 @@ async function loadStaffView(container) {
                   <th>성명</th>
                   <th>진료 과목</th>
                   <th>면허 번호</th>
-                  <th>상태</th>
+                  <th>관리</th>
                 </tr>
               </thead>
               <tbody>
@@ -1612,7 +1638,12 @@ async function loadStaffView(container) {
                     <td class="fw-bold">${d.name}</td>
                     <td><span class="badge bg-primary">${d.specialty}</span></td>
                     <td><code>${d.licenseNo}</code></td>
-                    <td><span class="badge bg-success">${d.status}</span></td>
+                    <td>
+                      <div class="d-flex gap-1">
+                        <button class="btn btn-sm btn-outline-info py-0 px-2" style="font-size: 0.75rem;" onclick="openEditStaffModal('${d.id}')">수정</button>
+                        <button class="btn btn-sm btn-outline-danger py-0 px-2" style="font-size: 0.75rem;" onclick="deleteStaff('${d.id}')">삭제</button>
+                      </div>
+                    </td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -1623,7 +1654,12 @@ async function loadStaffView(container) {
 
       <div class="col-md-6">
         <div class="card-premium">
-          <h5 class="mb-3 font-heading"><i class="fa-solid fa-user-nurse text-success me-2"></i>간호사 목록 (Nurses)</h5>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="m-0 font-heading"><i class="fa-solid fa-user-nurse text-success me-2"></i>간호사 목록 (Nurses)</h5>
+            <button class="btn btn-sm btn-cyan" onclick="openAddStaffModal('nurse')">
+              <i class="fa-solid fa-plus me-1"></i>간호사 추가
+            </button>
+          </div>
           <div class="table-responsive">
             <table class="table table-custom text-dark">
               <thead>
@@ -1632,7 +1668,7 @@ async function loadStaffView(container) {
                   <th>성명</th>
                   <th>소속 부서</th>
                   <th>면허 번호</th>
-                  <th>상태</th>
+                  <th>관리</th>
                 </tr>
               </thead>
               <tbody>
@@ -1642,7 +1678,12 @@ async function loadStaffView(container) {
                     <td class="fw-bold">${n.name}</td>
                     <td><span class="badge bg-success">${n.specialty}</span></td>
                     <td><code>${n.licenseNo}</code></td>
-                    <td><span class="badge bg-success">${n.status}</span></td>
+                    <td>
+                      <div class="d-flex gap-1">
+                        <button class="btn btn-sm btn-outline-info py-0 px-2" style="font-size: 0.75rem;" onclick="openEditStaffModal('${n.id}')">수정</button>
+                        <button class="btn btn-sm btn-outline-danger py-0 px-2" style="font-size: 0.75rem;" onclick="deleteStaff('${n.id}')">삭제</button>
+                      </div>
+                    </td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -1651,7 +1692,204 @@ async function loadStaffView(container) {
         </div>
       </div>
     </div>
+    <div id="staff-modal-container"></div>
   `;
+}
+
+// ====================================================
+// STAFF CRUD OPERATIONS
+// ====================================================
+function openAddStaffModal(role) {
+  const container = document.getElementById('staff-modal-container');
+  const roleTitle = role === 'doctor' ? '의사' : '간호사';
+  
+  container.innerHTML = `
+    <div class="modal fade show" id="staffCrudModal" tabindex="-1" style="display: block; background: rgba(0,0,0,0.4);" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-panel text-dark border-light-subtle" style="background-color: var(--bg-card);">
+          <div class="modal-header border-light-subtle">
+            <h5 class="modal-title font-heading text-info"><i class="fa-solid fa-user-plus me-2"></i>신규 ${roleTitle} 등록</h5>
+            <button type="button" class="btn-close" onclick="closeStaffModal()"></button>
+          </div>
+          <form id="staff-crud-form">
+            <div class="modal-body">
+              <input type="hidden" id="sf-role" value="${role}">
+              <div class="mb-3">
+                <label class="form-label text-muted small">아이디 (ID) <span class="text-danger">*</span></label>
+                <input type="text" id="sf-id" class="form-control form-control-custom" placeholder="아이디 입력" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted small">비밀번호 <span class="text-danger">*</span></label>
+                <input type="password" id="sf-pw" class="form-control form-control-custom" placeholder="비밀번호 입력" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted small">성명 <span class="text-danger">*</span></label>
+                <input type="text" id="sf-name" class="form-control form-control-custom" placeholder="이름 입력" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted small">${role === 'doctor' ? '진료 과목' : '소속 부서'} <span class="text-danger">*</span></label>
+                <input type="text" id="sf-specialty" class="form-control form-control-custom" placeholder="예: 순환기내과, 중환자실 등" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted small">면허 번호 <span class="text-danger">*</span></label>
+                <input type="text" id="sf-license" class="form-control form-control-custom" placeholder="예: DOC-XXXXX, NUR-XXXXX" required>
+              </div>
+            </div>
+            <div class="modal-footer border-light-subtle">
+              <button type="submit" class="btn btn-cyan">등록 완료</button>
+              <button type="button" class="btn btn-dark-outline" onclick="closeStaffModal()">취소</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('staff-crud-form').addEventListener('submit', handleAddStaff);
+}
+
+async function handleAddStaff(e) {
+  e.preventDefault();
+  const id = document.getElementById('sf-id').value.trim();
+  const password = document.getElementById('sf-pw').value;
+  const nameInput = document.getElementById('sf-name').value.trim();
+  const role = document.getElementById('sf-role').value;
+  const specialty = document.getElementById('sf-specialty').value.trim();
+  const licenseNo = document.getElementById('sf-license').value.trim();
+
+  await delay(100);
+  const db = getLocalDB();
+
+  if (db.users.some(u => u.id === id)) {
+    showToast('이미 존재하는 아이디입니다.');
+    return;
+  }
+
+  const fullName = `${nameInput} (${specialty})`;
+
+  const newStaff = { id, password, name: fullName, role, specialty, licenseNo };
+  db.users.push(newStaff);
+  saveLocalDB(db);
+
+  showToast('신규 직원이 성공적으로 등록되었습니다.', 'success');
+  closeStaffModal();
+  navigate('staff');
+}
+
+function openEditStaffModal(userId) {
+  const db = getLocalDB();
+  const user = db.users.find(u => u.id === userId);
+  if (!user) return;
+
+  const container = document.getElementById('staff-modal-container');
+  const roleTitle = user.role === 'doctor' ? '의사' : '간호사';
+  
+  const rawName = user.name.split(' (')[0];
+
+  container.innerHTML = `
+    <div class="modal fade show" id="staffCrudModal" tabindex="-1" style="display: block; background: rgba(0,0,0,0.4);" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-panel text-dark border-light-subtle" style="background-color: var(--bg-card);">
+          <div class="modal-header border-light-subtle">
+            <h5 class="modal-title font-heading text-info"><i class="fa-solid fa-user-gear me-2"></i>직원 정보 수정 (${roleTitle})</h5>
+            <button type="button" class="btn-close" onclick="closeStaffModal()"></button>
+          </div>
+          <form id="staff-crud-edit-form">
+            <div class="modal-body">
+              <input type="hidden" id="sf-edit-id" value="${user.id}">
+              <div class="mb-3">
+                <label class="form-label text-muted small">아이디 (ID)</label>
+                <input type="text" class="form-control form-control-custom" value="${user.id}" disabled>
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted small">비밀번호 <span class="text-danger">*</span></label>
+                <input type="password" id="sf-edit-pw" class="form-control form-control-custom" value="${user.password}" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted small">성명 <span class="text-danger">*</span></label>
+                <input type="text" id="sf-edit-name" class="form-control form-control-custom" value="${rawName}" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted small">${user.role === 'doctor' ? '진료 과목' : '소속 부서'} <span class="text-danger">*</span></label>
+                <input type="text" id="sf-edit-specialty" class="form-control form-control-custom" value="${user.specialty}" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted small">면허 번호 <span class="text-danger">*</span></label>
+                <input type="text" id="sf-edit-license" class="form-control form-control-custom" value="${user.licenseNo}" required>
+              </div>
+            </div>
+            <div class="modal-footer border-light-subtle">
+              <button type="submit" class="btn btn-cyan">저장 완료</button>
+              <button type="button" class="btn btn-dark-outline" onclick="closeStaffModal()">취소</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('staff-crud-edit-form').addEventListener('submit', handleEditStaff);
+}
+
+async function handleEditStaff(e) {
+  e.preventDefault();
+  const id = document.getElementById('sf-edit-id').value;
+  const password = document.getElementById('sf-edit-pw').value;
+  const nameInput = document.getElementById('sf-edit-name').value.trim();
+  const specialty = document.getElementById('sf-edit-specialty').value.trim();
+  const licenseNo = document.getElementById('sf-edit-license').value.trim();
+
+  await delay(100);
+  const db = getLocalDB();
+  const user = db.users.find(u => u.id === id);
+
+  if (user) {
+    user.password = password;
+    user.specialty = specialty;
+    user.name = `${nameInput} (${specialty})`;
+    user.licenseNo = licenseNo;
+
+    if (currentUser && currentUser.id === id) {
+      currentUser.name = user.name;
+      currentUser.specialty = user.specialty;
+      currentUser.licenseNo = user.licenseNo;
+      sessionStorage.setItem('hms_user', JSON.stringify(currentUser));
+      document.getElementById('user-display-name').innerText = currentUser.name;
+    }
+
+    saveLocalDB(db);
+    showToast('직원 정보가 수정되었습니다.', 'success');
+    closeStaffModal();
+    navigate('staff');
+  }
+}
+
+async function deleteStaff(userId) {
+  if (userId === 'admin') {
+    showToast('시스템 기본 관리자(admin) 계정은 삭제할 수 없습니다.');
+    return;
+  }
+  
+  if (currentUser && currentUser.id === userId) {
+    showToast('현재 로그인한 본인 계정은 삭제할 수 없습니다.');
+    return;
+  }
+
+  if (confirm(`정말로 직원 [${userId}]의 등록 정보를 삭제하시겠습니까?`)) {
+    await delay(100);
+    const db = getLocalDB();
+    db.users = db.users.filter(u => u.id !== userId);
+    saveLocalDB(db);
+
+    showToast('해당 직원의 정보가 정상적으로 삭제되었습니다.', 'success');
+    navigate('staff');
+  }
+}
+
+function closeStaffModal() {
+  const modal = document.getElementById('staffCrudModal');
+  if (modal) modal.style.display = 'none';
+  document.getElementById('staff-modal-container').innerHTML = '';
 }
 
 // ====================================================
