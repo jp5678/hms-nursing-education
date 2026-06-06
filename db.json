@@ -23,6 +23,30 @@
       "licenseNo": "DOC-67890"
     },
     {
+      "id": "doctor3",
+      "password": "doctor3",
+      "name": "최의사 (안과)",
+      "role": "doctor",
+      "specialty": "안과",
+      "licenseNo": "DOC-33333"
+    },
+    {
+      "id": "doctor4",
+      "password": "doctor4",
+      "name": "김의사 (일반외과)",
+      "role": "doctor",
+      "specialty": "일반외과",
+      "licenseNo": "DOC-44444"
+    },
+    {
+      "id": "doctor5",
+      "password": "doctor5",
+      "name": "정의사 (가정의학과)",
+      "role": "doctor",
+      "specialty": "가정의학과",
+      "licenseNo": "DOC-55555"
+    },
+    {
       "id": "nurse1",
       "password": "nurse1",
       "name": "최간호 (중환자실)",
@@ -37,6 +61,30 @@
       "role": "nurse",
       "specialty": "일반병동",
       "licenseNo": "NUR-43210"
+    },
+    {
+      "id": "nurse3",
+      "password": "nurse3",
+      "name": "박간호 (응급실)",
+      "role": "nurse",
+      "specialty": "ER",
+      "licenseNo": "NUR-33333"
+    },
+    {
+      "id": "nurse4",
+      "password": "nurse4",
+      "name": "강간호 (소아청소년과병동)",
+      "role": "nurse",
+      "specialty": "소아청소년과병동",
+      "licenseNo": "NUR-44444"
+    },
+    {
+      "id": "nurse5",
+      "password": "nurse5",
+      "name": "한간호 (수술실)",
+      "role": "nurse",
+      "specialty": "OR",
+      "licenseNo": "NUR-55555"
     }
   ],
   "patients": [

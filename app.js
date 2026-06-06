@@ -18,8 +18,14 @@ const INITIAL_DB = {
     { id: "admin", password: "admin", name: "김관리", role: "admin" },
     { id: "doctor1", password: "doctor1", name: "이의사 (순환기내과)", role: "doctor", specialty: "순환기내과", licenseNo: "DOC-12345" },
     { id: "doctor2", password: "doctor2", name: "박의사 (소아청소년과)", role: "doctor", specialty: "소아청소년과", licenseNo: "DOC-67890" },
+    { id: "doctor3", password: "doctor3", name: "최의사 (안과)", role: "doctor", specialty: "안과", licenseNo: "DOC-33333" },
+    { id: "doctor4", password: "doctor4", name: "김의사 (일반외과)", role: "doctor", specialty: "일반외과", licenseNo: "DOC-44444" },
+    { id: "doctor5", password: "doctor5", name: "정의사 (가정의학과)", role: "doctor", specialty: "가정의학과", licenseNo: "DOC-55555" },
     { id: "nurse1", password: "nurse1", name: "최간호 (중환자실)", role: "nurse", specialty: "ICU", licenseNo: "NUR-98765" },
-    { id: "nurse2", password: "nurse2", name: "정간호 (일반병동)", role: "nurse", specialty: "일반병동", licenseNo: "NUR-43210" }
+    { id: "nurse2", password: "nurse2", name: "정간호 (일반병동)", role: "nurse", specialty: "일반병동", licenseNo: "NUR-43210" },
+    { id: "nurse3", password: "nurse3", name: "박간호 (응급실)", role: "nurse", specialty: "ER", licenseNo: "NUR-33333" },
+    { id: "nurse4", password: "nurse4", name: "강간호 (소아청소년과병동)", role: "nurse", specialty: "소아청소년과병동", licenseNo: "NUR-44444" },
+    { id: "nurse5", password: "nurse5", name: "한간호 (수술실)", role: "nurse", specialty: "OR", licenseNo: "NUR-55555" }
   ],
   patients: [
     {
@@ -146,7 +152,14 @@ function getLocalDB() {
     localStorage.setItem('hms_db', JSON.stringify(INITIAL_DB));
     return INITIAL_DB;
   }
-  return JSON.parse(db);
+  
+  let parsed = JSON.parse(db);
+  // 직원이 추가되었을 때 로컬스토리지 사용자를 동기화
+  if (!parsed.users || parsed.users.length !== INITIAL_DB.users.length) {
+    parsed.users = INITIAL_DB.users;
+    saveLocalDB(parsed);
+  }
+  return parsed;
 }
 
 function saveLocalDB(db) {
@@ -161,14 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Theme
   initTheme();
 
-  // Check session storage for user persistence
-  const savedUser = sessionStorage.getItem('hms_user');
-  if (savedUser) {
-    currentUser = JSON.parse(savedUser);
-    initApp();
-  } else {
-    showLogin();
-  }
+  // 교육용 시뮬레이터에서는 자동 로그인 복구를 비활성화하여
+  // 새로 접속 시 항상 아이디와 비밀번호를 검증하도록 오해 방지
+  showLogin();
 
   // Bind Login Form
   document.getElementById('login-form').addEventListener('submit', handleLogin);
@@ -261,6 +269,11 @@ async function handleLogin(e) {
   e.preventDefault();
   const id = document.getElementById('login-id').value;
   const password = document.getElementById('login-password').value;
+
+  if (!id.trim() || !password.trim()) {
+    showToast('아이디와 비밀번호를 모두 입력해 주세요.');
+    return;
+  }
 
   await delay(200); // Simulate network latency
   const db = getLocalDB();
