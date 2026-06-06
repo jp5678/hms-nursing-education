@@ -857,6 +857,9 @@ async function loadAppointmentsView(container) {
       <div class="col-md-4">
         <div class="card-premium">
           <h5 class="mb-3 font-heading"><i class="fa-solid fa-calendar-plus me-2"></i>새 예약 등록</h5>
+          <p class="text-muted mb-3" style="font-size: 0.75rem; line-height: 1.4;">
+            <i class="fa-solid fa-circle-info text-info me-1"></i> 신규 환자는 <strong>[환자 관리]</strong> 메뉴에서 신규 등록을 먼저 마친 후 예약이 가능합니다.
+          </p>
           <form id="new-appt-form">
             <div class="mb-3">
               <label class="form-label text-muted small">진료 대상 환자</label>
